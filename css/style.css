@@ -1,0 +1,613 @@
+/* ==========================================================================
+   1. SISTEMA DE DISEÑO Y VARIABLES (ABITSLearn - Dark Mode Accesible)
+   ========================================================================== */
+:root {
+  /* Paleta de colores basada en el prototipo Figma */
+  --bg-main: #121212;              /* Fondo principal negro carbón */
+  --bg-surface: #222222;           /* Tarjetas, inputs y contenedores */
+  --bg-surface-hover: #2c2c2c;     /* Elevación sutil al pasar el cursor */
+  --brand-blue: #0066ff;           /* Azul eléctrico de botones y acentos */
+  --brand-blue-hover: #0052cc;     /* Estado hover con contraste AAA */
+  --brand-blue-focus: rgba(0, 102, 255, 0.35);
+
+  /* Tipografía y contraste WCAG AA */
+  --text-primary: #ffffff;         /* Blanco puro (Contraste > 15:1) */
+  --text-secondary: #b3b3b3;       /* Gris claro legible (Contraste > 7:1) */
+  --text-muted: #8a8a8a;
+
+  /* Estados semánticos (Usabilidad: Prevención y reporte de errores) */
+  --border-subtle: #363636;
+  --status-success: #10b981;
+  --status-danger: #ef4444;
+  --status-warning: #f59e0b;
+
+  /* Espaciado, bordes y sombras */
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-pill: 9999px;           /* Botones tipo píldora del prototipo */
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   2. RESET Y BASE ACCESIBLE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accesibilidad: Indicador claro para navegación con teclado (Tab) */
+:focus-visible {
+  outline: 3px solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+.container {
+  width: 92%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+/* ==========================================================================
+   3. NAVBAR (Consistencia y navegación clara en todas las pantallas)
+   ========================================================================== */
+.navbar {
+  background-color: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.navbar-brand svg,
+.navbar-brand img {
+  width: 30px;
+  height: 30px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navbar-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.2rem;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--brand-blue);
+}
+
+/* ==========================================================================
+   4. BOTONES (Ley de Fitts: área táctil >= 44px + estética píldora)
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.7rem 1.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--brand-blue);
+  color: var(--text-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--brand-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--brand-blue);
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background-color: rgba(0, 102, 255, 0.15);
+}
+
+/* Botón destructivo (Ej. "Eliminar cursos" en panel Admin) */
+.btn-danger {
+  background-color: var(--status-danger);
+  color: var(--text-primary);
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+/* ==========================================================================
+   5. PANTALLA 1: INICIO / HERO SECTION
+   ========================================================================== */
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 3.5rem 0;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 520px;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Tarjetas de acceso rápido inferior (Certificados, Mis cursos, Soporte) */
+.quick-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.quick-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  transition: var(--transition);
+}
+
+.quick-card:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--brand-blue);
+  transform: translateY(-3px);
+}
+
+.hero-mascot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-mascot img,
+.hero-mascot svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  image-rendering: pixelated; /* Mantiene nitidez del alien pixel-art */
+}
+
+/* ==========================================================================
+   6. PANTALLAS 2 Y 3: FORMULARIOS (Registro e Inicio de Sesión)
+   ========================================================================== */
+.auth-wrapper {
+  max-width: 440px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #18181b;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.auth-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 1.15rem;
+}
+
+/* Estándar de usabilidad: Etiqueta siempre visible sobre el campo */
+.form-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.form-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.8rem 1rem;
+  background-color: var(--bg-surface);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--brand-blue);
+  background-color: var(--bg-surface-hover);
+  box-shadow: 0 0 0 3px var(--brand-blue-focus);
+}
+
+/* Estados para validación dinámica con JavaScript */
+.form-input.is-invalid {
+  border-color: var(--status-danger);
+}
+
+.form-error-msg {
+  color: var(--status-danger);
+  font-size: 0.82rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.auth-footer-link {
+  display: inline-block;
+  margin-top: 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.auth-footer-link:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   7. PANTALLA 4: CATÁLOGO Y BÚSQUEDA DE CURSOS
+   ========================================================================== */
+.catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+}
+
+.search-box input {
+  padding-left: 2.6rem;
+  border-radius: var(--radius-pill);
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1.75rem;
+}
+
+.course-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--brand-blue);
+}
+
+.course-icon {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.course-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.course-price {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   8. PANTALLAS 5 Y 7: ÁREA DE USUARIO Y PROFESOR/ADMINISTRADOR
+   ========================================================================== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1.75rem;
+}
+
+.action-tile {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.1rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.action-tile:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--brand-blue);
+  transform: translateY(-3px);
+}
+
+.action-tile-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+}
+
+.action-tile .btn {
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   9. PANTALLA 6: CARRITO DE COMPRAS (Tu Carrito)
+   ========================================================================== */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-item {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.15rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.cart-item-img {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+}
+
+.cart-item-info {
+  flex-grow: 1;
+}
+
+.cart-item-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.cart-item-price {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.cart-summary {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.summary-row.discount {
+  color: var(--status-success);
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.cart-summary .btn-primary {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+/* ==========================================================================
+   10. MODALES Y NOTIFICACIONES TOAST (Feedback dinámico JS)
+   ========================================================================== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  z-index: 200;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  max-width: 460px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* ==========================================================================
+   11. DISEÑO RESPONSIVO (Tablets y Smartphones)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-subtitle {
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .navbar-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .quick-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .action-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
