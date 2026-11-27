@@ -4,14 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AbitsLearn - Plataforma de Aprendizaje</title>
-    <!-- Enlace para el compañero de estilos -->
+    <!-- Enlace para el CSS -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    
-    <!-- Aquí programarás la estructura de los componentes (botones, inputs, cards) -->
 
-    <!-- Enlace para el compañero de JavaScript -->
+    <!-- BARRA DE NAVEGACIÓN GLOBAL -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="./assets/logo.png" alt="Logotipo de AbitsLearn">
+            <span>ABITSLearn</span>
+        </div>
+        <nav aria-label="Navegación principal">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#explorar">Explorar cursos</a></li>
+                <li><a href="#nosotros">Sobre nosotros</a></li>
+                <li><a href="#mis-cursos">Mis cursos</a></li>
+                <li><a href="#certificados">Certificados</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+            </ul>
+        </nav>
+        <div class="auth-menu">
+            <button type="button" id="btn-nav-login">Iniciar Sesión</button>
+            <button type="button" id="btn-nav-register">Registrarse</button>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DE PANTALLAS -->
+    <main id="app-container">
+
+        <!-- 1. PANTALLA DE INICIO (HOME) -->
+        <section id="pantalla-inicio" class="view-section">
+            <article class="hero">
+                <h1>Aprende a tu manera</h1>
+                <p>Conviértete en un desarrollador Full Stack desde cero, a tu ritmo y de manera personalizada.</p>
+            </article>
+            <nav class="quick-links" aria-label="Enlaces rápidos">
+                <ul>
+                    <li>
+                        <a href="#certificados">
+                            <img src="./assets/icon-cert.svg" alt="" aria-hidden="true">
+                            Certificados
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#mis-cursos">
+                            <img src="./assets/icon-cursos.svg" alt="" aria-hidden="true">
+                            Mis cursos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#soporte">
+                            <img src="./assets/icon-soporte.svg" alt="" aria-hidden="true">
+                            Soporte
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- 2. PANTALLA DE REGISTRO -->
+        <section id="pantalla-registro" class="view-section" hidden>
+            <div class="auth-container">
+                <img src="./assets/logo.png" alt="ABITSLearn">
+                <h2>Crea tu cuenta</h2>
+                <!-- Uso de <form> y <label> para mejorar accesibilidad y validación -->
+                <form id="form-registro">
+                    <div class="input-group">
+                        <label for="reg-username">Nombre de usuario</label>
+                        <input type="text" id="reg-username" name="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-email">Correo electrónico</label>
+                        <input type="email" id="reg-email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-password">Contraseña</label>
+                        <input type="password" id="reg-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Continuar</button>
+                </form>
+                <p><a href="#pantalla-login" id="link-to-login">¿Ya tienes cuenta?, Inicia sesión</a></p>
+            </div>
+        </section>
+
+        <!-- 3. PANTALLA DE INICIO DE SESIÓN -->
+        <section id="pantalla-login" class="view-section" hidden>
+            <div class="auth-container">
+                <img src="./assets/logo.png" alt="ABITSLearn">
+                <h2>Iniciar sesión</h2>
+                <form id="form-login">
+                    <div class="input-group">
+                        <label for="log-username">Nombre de usuario</label>
+                        <input type="text" id="log-username" name="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="log-password">Contraseña</label>
+                        <input type="password" id="log-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Continuar</button>
+                </form>
+                <p><a href="#recuperar-password">¿Olvidaste tu contraseña?</a></p>
+            </div>
+        </section>
+
+        <!-- 4. PANTALLA: EXPLORAR CURSOS -->
+        <section id="pantalla-explorar" class="view-section" hidden>
+            <header class="section-header">
+                <h2>Adéntrate al mundo de la programación</h2>
+                <p>Aprende todo lo que necesitas para convertirte en un gran desarrollador, desde lo más básico hasta lo más avanzado, con nuestro amplio catálogo de cursos.</p>
+                <form id="form-busqueda" role="search">
+                    <label for="input-busqueda" class="sr-only">Buscar cursos</label>
+                    <input type="search" id="input-busqueda" placeholder="Buscar cursos...">
+                    <button type="submit">Buscar</button>
+                </form>
+            </header>
+            
+            <div class="grid-cursos">
+                <!-- Tarjeta de Curso: JS -->
+                <article class="card-curso">
+                    <img src="./assets/js-cover.png" alt="Logo de JavaScript">
+                    <h3>Curso JavaScript</h3>
+                    <button type="button" class="btn-add-cart" data-curso="js">Agregar al carrito</button>
+                </article>
+                <!-- Tarjeta de Curso: Python -->
+                <article class="card-curso">
+                    <img src="./assets/python-cover.png" alt="Logo de Python">
+                    <h3>Curso Python</h3>
+                    <button type="button" class="btn-add-cart" data-curso="python">Agregar al carrito</button>
+                </article>
+                <!-- Tarjeta de Curso: C -->
+                <article class="card-curso">
+                    <img src="./assets/c-cover.png" alt="Logo de C">
+                    <h3>Curso C</h3>
+                    <button type="button" class="btn-add-cart" data-curso="c">Agregar al carrito</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- 5. PANTALLA: ÁREA DE USUARIO -->
+        <section id="pantalla-area-usuario" class="view-section" hidden>
+            <header class="dashboard-header">
+                <h2>Área de usuario</h2>
+                <a href="#pantalla-area-admin" class="link-admin">Acceder a vista de Profesor/Administrador</a>
+            </header>
+            <nav aria-label="Menú de herramientas del usuario">
+                <ul class="grid-dashboard">
+                    <li><button type="button"><img src="./assets/icon-book.svg" alt=""> Ver mis cursos</button></li>
+                    <li><button type="button"><img src="./assets/icon-play.svg" alt=""> Lecciones en video</button></li>
+                    <li><button type="button"><img src="./assets/icon-code.svg" alt=""> Editor de código en vivo</button></li>
+                    <li><button type="button"><img src="./assets/icon-globe.svg" alt=""> Acceder al foro</button></li>
+                    <li><button type="button"><img src="./assets/icon-edit.svg" alt=""> Realizar evaluación</button></li>
+                    <li><button type="button"><img src="./assets/icon-stairs.svg" alt=""> Ver progreso</button></li>
+                    <li><button type="button"><img src="./assets/icon-cap.svg" alt=""> Descargar certificado</button></li>
+                    <li><button type="button"><img src="./assets/icon-cart.svg" alt=""> Ver carrito</button></li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- 6. PANTALLA: CARRITO DE COMPRAS -->
+        <section id="pantalla-carrito" class="view-section" hidden>
+            <h2>Tu Carrito</h2>
+            <div class="carrito-layout">
+                <div class="cesta-items">
+                    <h3>Cursos en la cesta</h3>
+                    <ul>
+                        <li class="cart-item">
+                            <img src="./assets/python-logo.png" alt="Python">
+                            <div class="item-details">
+                                <h4>Python para principiantes</h4>
+                                <span class="price">200 MX$</span>
+                            </div>
+                        </li>
+                        <li class="cart-item">
+                            <img src="./assets/js-logo.png" alt="JavaScript">
+                            <div class="item-details">
+                                <h4>JavaScript para principiantes</h4>
+                                <span class="price">200 MX$</span>
+                            </div>
+                        </li>
+                        <li class="cart-item">
+                            <img src="./assets/c-logo.png" alt="C">
+                            <div class="item-details">
+                                <h4>C para principiantes</h4>
+                                <span class="price">200 MX$</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <aside class="resumen-pago">
+                    <h3>Resumen</h3>
+                    <p>Subtotal: <span>600 MX$</span></p>
+                    <p>Descuento 25%: <span>150 MX$</span></p>
+                    <p class="total-line"><strong>Total: <span>450 MX$</span></strong></p>
+                    <button type="button" class="btn-primary">Procesar pago</button>
+                </aside>
+            </div>
+        </section>
+
+        <!-- 7. PANTALLA: ÁREA DE PROFESOR / ADMINISTRADOR -->
+        <section id="pantalla-area-admin" class="view-section" hidden>
+            <h2>Área de Profesor/Administrador</h2>
+            <nav aria-label="Menú de administración">
+                <ul class="grid-dashboard admin-grid">
+                    <li><button type="button"><img src="./assets/icon-pen.svg" alt=""> Crear curso</button></li>
+                    <li><button type="button"><img src="./assets/icon-edit-doc.svg" alt=""> Editar curso</button></li>
+                    <li><button type="button"><img src="./assets/icon-publish.svg" alt=""> Publicar curso</button></li>
+                    <li><button type="button"><img src="./assets/icon-calendar.svg" alt=""> Configurar fechas</button></li>
+                    <li><button type="button"><img src="./assets/icon-check.svg" alt=""> Revisar evaluaciones</button></li>
+                    <li><button type="button"><img src="./assets/icon-student.svg" alt=""> Ver alumnos inscritos</button></li>
+                    <li><button type="button"><img src="./assets/icon-star.svg" alt=""> Asignar Calificaciones</button></li>
+                    <li><button type="button"><img src="./assets/icon-approve.svg" alt=""> Aprobar/Rechazar curso</button></li>
+                    <li><button type="button"><img src="./assets/icon-users.svg" alt=""> Gestionar usuarios</button></li>
+                    <li><button type="button"><img src="./assets/icon-trash.svg" alt=""> Eliminar cursos</button></li>
+                    <li><button type="button"><img src="./assets/icon-report.svg" alt=""> Ver reportes de venta</button></li>
+                    <li><button type="button"><img src="./assets/icon-stats.svg" alt=""> Ver estadísticas de uso</button></li>
+                </ul>
+            </nav>
+        </section>
+
+    </main>
+
+    <!-- Enlace para el JavaScript -->
     <script src="./js/main.js"></script>
 </body>
 </html>
