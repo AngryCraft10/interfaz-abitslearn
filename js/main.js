@@ -132,3 +132,182 @@ document.addEventListener("DOMContentLoaded", () => {
     buscador?.addEventListener("input", filtrarCursos);
 
 });
+// Carrito de compras dinamico
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const catalogo = {
+        js: {
+            nombre: "JavaScript para principiantes",
+            precio: 200,
+            imagen: "./assets/javascript.png"
+        },
+        python: {
+            nombre: "Python para principiantes",
+            precio: 200,
+            imagen: "./assets/python.png"
+        },
+        c: {
+            nombre: "C para principiantes",
+            precio: 200,
+            imagen: "./assets/c_logo.png"
+        }
+    };
+
+    const contenedor = document.querySelector(".cart-items");
+    const resumen = document.querySelector(".cart-summary");
+
+    if (!contenedor || !resumen) return;
+
+    let carrito = [];
+
+    try {
+        const guardado = JSON.parse(
+            localStorage.getItem("abitslearn-carrito") || "[]"
+        );
+
+        if (Array.isArray(guardado)) {
+            carrito = [...new Set(guardado)]
+                .filter(id => Object.hasOwn(catalogo, id));
+        }
+    } catch {
+        carrito = [];
+    }
+
+    const botonPago = resumen.querySelector("button");
+
+    function guardarCarrito() {
+        try {
+            localStorage.setItem(
+                "abitslearn-carrito",
+                JSON.stringify(carrito)
+            );
+        } catch {
+            console.warn("No se pudo guardar el carrito.");
+        }
+    }
+
+    function actualizarCarrito() {
+
+        contenedor.querySelectorAll(".cart-item, .cart-empty")
+            .forEach(elemento => elemento.remove());
+
+        if (carrito.length === 0) {
+            const mensaje = document.createElement("p");
+            mensaje.className = "cart-empty";
+            mensaje.textContent = "Tu carrito esta vacio.";
+            contenedor.appendChild(mensaje);
+        }
+
+        carrito.forEach(id => {
+
+            const curso = catalogo[id];
+            const tarjeta = document.createElement("article");
+
+            tarjeta.className = "cart-item";
+
+            tarjeta.innerHTML = `
+                <img src="${curso.imagen}"
+                     alt="${curso.nombre}"
+                     class="cart-item-img">
+
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title">
+                        ${curso.nombre}
+                    </h4>
+                    <span class="cart-item-price">
+                        ${curso.precio} MX$
+                    </span>
+                </div>
+
+                <button type="button" class="btn btn-danger">
+                    Eliminar
+                </button>
+            `;
+
+            tarjeta.querySelector("button")
+                .addEventListener("click", () => {
+                    carrito = carrito.filter(item => item !== id);
+                    guardarCarrito();
+                    actualizarCarrito();
+                });
+
+            contenedor.appendChild(tarjeta);
+        });
+
+        const subtotal = carrito.reduce(
+            (total, id) => total + catalogo[id].precio, 0
+        );
+
+        const descuento = subtotal * 0.25;
+        const total = subtotal - descuento;
+
+        resumen.querySelector(".summary-row span:last-child")
+            .textContent = subtotal + " MX$";
+
+        resumen.querySelector(".discount span:last-child")
+            .textContent = "-" + descuento + " MX$";
+
+        resumen.querySelector(".summary-total span:last-child")
+            .textContent = total + " MX$";
+
+        botonPago.disabled = carrito.length === 0;
+    }
+
+    function abrirCarrito() {
+        document.querySelectorAll(".view-section")
+            .forEach(pantalla => {
+                pantalla.hidden =
+                    pantalla.id !== "pantalla-carrito";
+            });
+
+        actualizarCarrito();
+        window.scrollTo(0, 0);
+    }
+
+    document.querySelectorAll(".btn-add-cart")
+        .forEach(boton => {
+
+            boton.addEventListener("click", () => {
+
+                const id = boton.dataset.curso;
+
+                if (!Object.hasOwn(catalogo, id)) return;
+
+                if (carrito.includes(id)) {
+                    alert("Este curso ya esta en tu carrito.");
+                    return;
+                }
+
+                carrito.push(id);
+                guardarCarrito();
+                actualizarCarrito();
+
+                if (confirm("Curso agregado. ¿Deseas ver tu carrito?")) {
+                    abrirCarrito();
+                }
+            });
+        });
+
+    document.querySelectorAll("#pantalla-area-usuario button")
+        .forEach(boton => {
+            if (boton.textContent.trim() === "Ver carrito") {
+                boton.addEventListener("click", abrirCarrito);
+            }
+        });
+
+    botonPago.addEventListener("click", () => {
+
+        if (carrito.length === 0) return;
+
+        if (confirm("¿Deseas confirmar el pago simulado?")) {
+            carrito = [];
+            guardarCarrito();
+            actualizarCarrito();
+            alert("Compra de demostracion completada.");
+        }
+    });
+
+    actualizarCarrito();
+
+});
