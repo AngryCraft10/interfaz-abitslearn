@@ -108,3 +108,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+// Buscador dinamico de cursos
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const buscador = document.getElementById("input-busqueda");
+    const formulario = document.getElementById("form-busqueda");
+    const cursos = document.querySelectorAll(".card-curso");
+
+    function filtrarCursos() {
+        const busqueda = buscador.value.toLowerCase().trim();
+
+        cursos.forEach(curso => {
+            const nombre = curso.querySelector("h3")
+                .textContent.toLowerCase();
+
+            curso.hidden = !nombre.includes(busqueda);
+        });
+    }
+
+    buscador?.addEventListener("input", filtrarCursos);
+
+    formulario?.addEventListener("submit", evento => {
+        evento.preventDefault();
+        filtrarCursos();
+    });
+
+});
