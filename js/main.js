@@ -113,8 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
     const buscador = document.getElementById("input-busqueda");
-    const formulario = document.getElementById("form-busqueda");
-    const cursos = document.querySelectorAll(".card-curso");
+    const cursos = document.querySelectorAll(".course-card");
 
     function filtrarCursos() {
         const busqueda = buscador.value.toLowerCase().trim();
@@ -123,15 +122,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const nombre = curso.querySelector("h3")
                 .textContent.toLowerCase();
 
-            curso.hidden = !nombre.includes(busqueda);
+            const coincide = nombre.includes(busqueda);
+
+            curso.hidden = !coincide;
+            curso.style.display = coincide ? "" : "none";
         });
     }
 
     buscador?.addEventListener("input", filtrarCursos);
-
-    formulario?.addEventListener("submit", evento => {
-        evento.preventDefault();
-        filtrarCursos();
-    });
 
 });
