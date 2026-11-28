@@ -453,3 +453,99 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 });
+// Validaciones visuales de formularios
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const formularios = document.querySelectorAll(
+        "#form-registro, #form-login"
+    );
+
+    function validarCampo(campo) {
+
+        let mensaje = "";
+
+        if (!campo.value.trim()) {
+            mensaje = "Este campo es obligatorio.";
+        } else if (campo.type === "email" && !campo.validity.valid) {
+            mensaje = "Ingresa un correo electronico valido.";
+        } else if (campo.name === "username" &&
+                   campo.value.trim().length < 3) {
+            mensaje = "El usuario debe tener al menos 3 caracteres.";
+        } else if (campo.type === "password" &&
+                   campo.value.length < 6) {
+            mensaje = "La contraseña debe tener al menos 6 caracteres.";
+        }
+
+        const error = document.getElementById(
+            campo.id + "-error"
+        );
+
+        campo.classList.toggle("is-invalid", mensaje !== "");
+        campo.setAttribute("aria-invalid", String(mensaje !== ""));
+
+        error.textContent = mensaje;
+
+        return mensaje === "";
+    }
+
+    formularios.forEach(formulario => {
+
+        formulario.noValidate = true;
+
+        const campos = formulario.querySelectorAll(".form-input");
+
+        campos.forEach(campo => {
+
+            const error = document.createElement("span");
+
+            error.className = "form-error-msg";
+            error.id = campo.id + "-error";
+            error.setAttribute("aria-live", "polite");
+
+            campo.insertAdjacentElement("afterend", error);
+
+            campo.setAttribute("aria-describedby", error.id);
+
+            campo.addEventListener("blur", () => {
+                validarCampo(campo);
+            });
+
+            campo.addEventListener("input", () => {
+                if (campo.classList.contains("is-invalid")) {
+                    validarCampo(campo);
+                }
+            });
+        });
+
+        formulario.addEventListener("submit", evento => {
+
+            let primerError = null;
+
+            campos.forEach(campo => {
+                if (!validarCampo(campo) && !primerError) {
+                    primerError = campo;
+                }
+            });
+
+            if (primerError) {
+                evento.preventDefault();
+                evento.stopImmediatePropagation();
+                primerError.focus();
+            }
+
+        }, true);
+
+        formulario.addEventListener("reset", () => {
+            campos.forEach(campo => {
+                campo.classList.remove("is-invalid");
+                campo.setAttribute("aria-invalid", "false");
+
+                document.getElementById(
+                    campo.id + "-error"
+                ).textContent = "";
+            });
+        });
+    });
+
+});
