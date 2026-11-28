@@ -311,3 +311,145 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarCarrito();
 
 });
+// Paneles interactivos y ventanas modales
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal = document.createElement("div");
+
+    modal.className = "modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "modal-titulo");
+    modal.setAttribute("aria-hidden", "true");
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2 id="modal-titulo"></h2>
+            <p id="modal-mensaje"
+               style="margin: 1rem 0;"></p>
+            <button type="button"
+                    class="btn btn-primary">
+                Cerrar
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const cerrar = modal.querySelector("button");
+    let elementoAnterior = null;
+
+    function abrirModal(titulo, mensaje) {
+
+        elementoAnterior = document.activeElement;
+
+        modal.querySelector("#modal-titulo")
+            .textContent = titulo;
+
+        modal.querySelector("#modal-mensaje")
+            .textContent = mensaje;
+
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+
+        cerrar.focus();
+    }
+
+    function cerrarModal() {
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+        elementoAnterior?.focus();
+    }
+
+    cerrar.addEventListener("click", cerrarModal);
+
+    modal.addEventListener("click", evento => {
+        if (evento.target === modal) {
+            cerrarModal();
+        }
+    });
+
+    document.addEventListener("keydown", evento => {
+        if (!modal.classList.contains("active")) return;
+
+        if (evento.key === "Escape") {
+            cerrarModal();
+        }
+
+        if (evento.key === "Tab") {
+            evento.preventDefault();
+            cerrar.focus();
+        }
+    });
+
+    // Enlaces informativos
+
+    const informacion = {
+        "#nosotros": [
+            "Sobre nosotros",
+            "ABITSLearn es una plataforma educativa enfocada en el aprendizaje de la programacion."
+        ],
+        "#certificados": [
+            "Certificados",
+            "Completa tus cursos para obtener certificados."
+        ],
+        "#soporte": [
+            "Soporte",
+            "Bienvenido al centro de ayuda de ABITSLearn."
+        ],
+        "#recuperar-password": [
+            "Recuperar contraseña",
+            "La recuperacion de contraseña requiere un servicio de autenticacion."
+        ]
+    };
+
+    document.querySelectorAll('a[href^="#"]')
+        .forEach(enlace => {
+
+            const datos = informacion[
+                enlace.getAttribute("href")
+            ];
+
+            if (!datos) return;
+
+            enlace.addEventListener("click", evento => {
+                evento.preventDefault();
+                abrirModal(datos[0], datos[1]);
+            });
+        });
+
+    // Herramientas del usuario
+
+    document.querySelectorAll("#pantalla-area-usuario button")
+        .forEach(boton => {
+
+            const nombre = boton.textContent.trim();
+
+            if (nombre === "Ver carrito") return;
+
+            boton.addEventListener("click", () => {
+                abrirModal(
+                    nombre,
+                    "Esta herramienta forma parte del prototipo de ABITSLearn. Su funcionamiento completo requiere servicios adicionales."
+                );
+            });
+        });
+
+    // Herramientas del administrador
+
+    document.querySelectorAll("#pantalla-area-admin button")
+        .forEach(boton => {
+
+            boton.addEventListener("click", () => {
+
+                const nombre = boton.textContent.trim();
+
+                abrirModal(
+                    nombre,
+                    "Modulo administrativo de demostracion. No se realizaran cambios en datos reales."
+                );
+            });
+        });
+
+});
